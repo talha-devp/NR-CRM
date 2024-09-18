@@ -32,9 +32,9 @@ def get_form_elements():
 def add_form():
     data = request.form
     print(data)
-    form_elements = {k: v for k, v in data.items()}
+    form_elements = {k: v for k, v in data.items() if k != 'formName'}
     form_value = json.dumps(form_elements)
 
-    Form.add_form(form_value)
+    Form.add_form(form_value, data.get('formName'))
 
     return jsonify({"success": True, "message": "Form successfully added"})

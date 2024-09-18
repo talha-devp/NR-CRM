@@ -7,7 +7,12 @@ $(document).ready(function () {
                 if (response.success) {
                     let formElements = response.data;
                     let formContainer = $('#formElementsContainer');
-                    formContainer.empty(); // Clear existing content
+                    formContainer.empty();
+
+                    formContainer.append(`<div class="mb-3">
+                        <label class="form-label">Form Adı</label>
+                        <input type="text" class="form-control" name="formName" required>
+                    </div>`);
 
                     formElements.forEach(function (element) {
                         let inputField;
