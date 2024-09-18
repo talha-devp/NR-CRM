@@ -20,25 +20,25 @@ $(document).ready(function () {
                             case 1: // Text
                                 inputField = `<div class="mb-3">
                                     <label class="form-label">${element.name}</label>
-                                    <input type="text" class="form-control" name="element-${element.id}">
+                                    <input type="text" class="form-control" name="element-${element.id}" ${element.compulsory ? 'required' : ''}>
                                 </div>`;
                                 break;
                             case 2: // Number
                                 inputField = `<div class="mb-3">
                                     <label class="form-label">${element.name}</label>
-                                    <input type="number" class="form-control" name="element-${element.id}">
+                                    <input type="number" class="form-control" name="element-${element.id}" ${element.compulsory ? 'required' : ''}>
                                 </div>`;
                                 break;
                             case 3: // Date Picker
                                 inputField = `<div class="mb-3">
                                     <label class="form-label">${element.name}</label>
-                                    <input type="date" class="form-control" name="element-${element.id}">
+                                    <input type="date" class="form-control" name="element-${element.id}" ${element.compulsory ? 'required' : ''}>
                                 </div>`;
                                 break;
                             case 4: // Checkbox
                                 inputField = `<div class="mb-3">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="element-${element.id}">
+                                        <input type="checkbox" class="form-check-input" name="element-${element.id}" ${element.compulsory ? 'required' : ''}>
                                         <label class="form-check-label">${element.name}</label>
                                     </div>
                                 </div>`;

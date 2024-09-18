@@ -1,3 +1,5 @@
+from datetime import datetime
+import logging
 import os.path
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -28,7 +30,7 @@ def authenticate_google_calendar():
     return service
 
 
-def create_event(calendar_service, summary, start_datetime, end_datetime, description='', location=''):
+def create_event(calendar_service, summary: str, start_datetime: datetime, end_datetime: datetime, description='', location=''):
     """Create an event in Google Calendar"""
     try:
         event = {
@@ -37,14 +39,15 @@ def create_event(calendar_service, summary, start_datetime, end_datetime, descri
             'location': location,
             'start': {
                 'dateTime': start_datetime.isoformat(),
-                'timeZone': 'UTC',
+                'timeZone': 'Europe/Istanbul',
             },
             'end': {
                 'dateTime': end_datetime.isoformat(),
-                'timeZone': 'UTC',
+                'timeZone': 'Europe/Istanbul',
             },
         }
         event_result = calendar_service.events().insert(calendarId='primary', body=event).execute()
+        logging.info(f'Event created: {event_result.get("htmlLink")}')
         print(f'Event created: {event_result.get("htmlLink")}')
         return event_result
     except HttpError as error:
