@@ -58,6 +58,7 @@ class FormElement(db.Model):
     name = db.Column(db.String(120))
     input_type = db.Column(db.Integer)
     copyable = db.Column(db.Boolean, default=False)
+    compulsory = db.Column(db.Boolean, default=False)
 
     def __init__(self, name: str, input_type: InputType, copyable=False):
         self.name = name
@@ -71,6 +72,7 @@ class FormElement(db.Model):
             'name': self.name,
             'input_type': self.input_type,
             'copyable': self.copyable,
+            'compulsory': self.compulsory,
         }
 
     @classmethod

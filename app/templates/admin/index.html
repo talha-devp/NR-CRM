@@ -45,8 +45,12 @@
                                     <tr>
                                         <td class="align-middle">{{ element.id }}</td>
                                         <td class="align-middle">
-                                            <input maxlength="120" type="text" class="form-control element-name"
-                                                   value="{{ element.name }}" data-id="{{ element.id }}">
+                                            {% if not element.compulsory %}
+                                                <input maxlength="120" type="text" class="form-control element-name"
+                                                       value="{{ element.name }}" data-id="{{ element.id }}">
+                                            {% else %}
+                                                <div>{{ element.name }}</div>
+                                            {% endif %}
                                         </td>
                                         <td class="align-middle">
                                             {{ input_type_names[element.input_type] if element.input_type in input_type_names else 'Unknown' }}
@@ -55,9 +59,13 @@
                                             {{ 'Evet' if element.copyable else 'Hayır' }}
                                         </td>
                                         <td class="align-middle">
-                                            <button class="btn btn-danger btn-sm btn-fixed-size delete-btn" data-id="{{ element.id }}">
-                                                Sil
-                                            </button>
+                                            {% if not element.compulsory %}
+                                                <button class="btn btn-danger btn-sm btn-fixed-size delete-btn" data-id="{{ element.id }}">
+                                                    Sil
+                                                </button>
+                                            {% else %}
+                                                <div>Zorunlu</div>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                 {% endfor %}

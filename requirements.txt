@@ -5,3 +5,6 @@ SQLAlchemy~=2.0.31
 sentry_sdk~=2.10.0
 flask-caching~=2.3.0
 gunicorn~=23.0.0
+google-auth-httplib2~=0.2.0
+google-auth-oauthlib~=1.2.1
+google-api-python-client~=2.146.0
