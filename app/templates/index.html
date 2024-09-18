@@ -9,7 +9,6 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
-    <!-- Navbar for mobile toggle -->
     <nav class="navbar navbar-dark bg-dark d-md-none">
         <div class="container-fluid">
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
@@ -18,7 +17,6 @@
         </div>
     </nav>
 
-    <!-- Sidebar as offcanvas for mobile devices -->
     <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarLabel">Yan Ürünler</h5>
@@ -31,19 +29,16 @@
 
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar for larger screens -->
             <div class="col-md-3 col-lg-2 bg-dark d-none d-md-flex flex-column p-3 sidebar">
                 <button class="openFormModal btn btn-primary w-100">Yeni Form Ekle</button>
             </div>
 
-            <!-- Main content area -->
             <div class="col-md-9 col-lg-10 p-3">
                 <h2>Kaydedilmiş Formlar</h2>
                 <div class="list-group">
                     {% for form in forms %}
-                        <div class="list-group-item">
+                        <div class="list-group-item form-item" data-id="{{ form.id }}">
                             <h5 class="mb-1">{{ form.name }}</h5>
-                            <p class="mb-1">{{ form.value }}</p>
                             <small>Form ID: {{ form.id }}</small>
                         </div>
                     {% endfor %}
@@ -52,7 +47,6 @@
         </div>
     </div>
 
-    <!-- Modal for adding form -->
     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

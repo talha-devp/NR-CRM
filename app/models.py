@@ -142,3 +142,13 @@ class Form(db.Model):
     @classmethod
     def get_all_forms(cls):
         return cls.query.all()
+
+    @classmethod
+    def get_form_by_id(cls, form_id: int):
+        form = cls.query.get(form_id)
+        if form:
+            logging.info(f"Form ID {form_id} retrieved successfully.")
+            return jsonify({"success": True, "data": form.to_dict()})
+        else:
+            logging.warning(f"Form ID {form_id} not found.")
+            return jsonify({"success": False, "message": "Form not found"})

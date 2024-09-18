@@ -41,3 +41,8 @@ def add_form():
         return jsonify({"success": False, "message": "Form name does not exist"})
 
     return jsonify({"success": True, "message": "Form successfully added"})
+
+
+@api_index.route('/form/<int:form_id>', methods=['GET'])
+def get_form(form_id: int):
+    return Form.get_form_by_id(form_id)
