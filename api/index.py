@@ -31,7 +31,6 @@ def get_form_elements():
 @api_index.route('/form/add', methods=['POST'])
 def add_form():
     data = request.form
-    print(data)
     form_elements = {k: v for k, v in data.items() if k != 'formName'}
     form_value = json.dumps(form_elements)
 

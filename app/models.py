@@ -103,12 +103,11 @@ class FormElement(db.Model):
 class Form(db.Model):
     __tablename__ = 'form'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), default="Yeni Form")
+    name = db.Column(db.String(120))
     value = db.Column(db.String(1500))
 
-    def __init__(self, value: str, name: str = None):
-        if name:
-            self.name = name
+    def __init__(self, value: str, name: str):
+        self.name = name
         self.value = value
         logging.info(f"New form created. ID: {self.id}")
 
