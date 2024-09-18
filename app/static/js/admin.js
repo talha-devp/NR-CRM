@@ -25,17 +25,17 @@ $(document).ready(function () {
 
         const name = $('#elementName').val();
         const inputType = $('#inputType').val();
+        const copyable = $('#copyableCheckbox').is(':checked');
 
         $.ajax({
             url: '/admin/element/add',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ name: name, input_type: inputType }),
+            data: JSON.stringify({ name: name, input_type: inputType, copyable: copyable }),
             success: function (response) {
                 addMessage(response);
                 if (response.success) {
                     $('#addFormElementModal').modal('hide');
-                    // Optionally reload the page or refresh the table
                     location.reload();
                 }
             },

@@ -21,10 +21,9 @@ def index():
 
 @api_index.route('/form/elements', methods=['GET'])
 def get_form_elements():
-    elements = FormElement.get_all_form_elements()
     return jsonify({
         'success': True,
-        'data': [element.to_dict() for element in elements]
+        'data': [element.to_dict() for element in FormElement.get_all_form_elements()]
     })
 
 
@@ -34,6 +33,9 @@ def add_form():
     form_elements = {k: v for k, v in data.items() if k != 'formName'}
     form_value = json.dumps(form_elements)
 
-    Form.add_form(form_value, data.get('formName'))
+    if data.get('formName'):
+        Form.add_form(form_value, data.get('formName'))
+    else:
+        return jsonify({"success": False, "message": "Form name does not exist"})
 
     return jsonify({"success": True, "message": "Form successfully added"})

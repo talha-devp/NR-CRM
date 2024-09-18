@@ -78,11 +78,11 @@ class FormElement(db.Model):
         return cls.query.all()
 
     @classmethod
-    def add_form_element(cls, name: str, input_type: InputType):
+    def add_form_element(cls, name: str, input_type: InputType, copyable=False):
         if not name or not input_type:
             return jsonify({"success": False, "message": "Geçersiz veri. Lütfen tüm alanları doldurun."}), 400
 
-        new_element = cls(name, input_type)
+        new_element = cls(name, input_type, copyable)
         db.session.add(new_element)
         db.session.commit()
         logging.info(msg=f"A new form element has been added to the database with id {new_element.id}")
@@ -104,7 +104,7 @@ class Form(db.Model):
     __tablename__ = 'form'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
-    value = db.Column(db.String(1500))
+    value = db.Column(db.String(6000))
 
     def __init__(self, value: str, name: str):
         self.name = name

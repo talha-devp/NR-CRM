@@ -70,10 +70,12 @@ def logout():
 def add_form_element():
     logging.info(msg="Add form element called")
     data = request.get_json()
-
+    print(data)
     name = data.get('name')
     input_type = InputType(int(data.get('input_type')))
-    return FormElement.add_form_element(name, input_type)
+    copyable = bool(data.get('copyable'))
+
+    return FormElement.add_form_element(name, input_type, copyable)
 
 
 @api_admin.route('/element/delete/<int:_id>', methods=['DELETE'])

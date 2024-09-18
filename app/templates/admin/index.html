@@ -35,6 +35,7 @@
                                     <th>ID</th>
                                     <th>İsim</th>
                                     <th>Tür</th>
+                                    <th>Taşınacak</th>
                                     <th>İşlem</th>
                                 </tr>
                             </thead>
@@ -49,6 +50,9 @@
                                         </td>
                                         <td class="align-middle">
                                             {{ input_type_names[element.input_type] if element.input_type in input_type_names else 'Unknown' }}
+                                        </td>
+                                        <td class="align-middle">
+                                            {{ 'Evet' if element.copyable else 'Hayır' }}
                                         </td>
                                         <td class="align-middle">
                                             <button class="btn btn-danger btn-sm btn-fixed-size delete-btn" data-id="{{ element.id }}">
@@ -90,6 +94,12 @@
                                     <option value="4">Checkbox</option>
                                     <option value="5">Dropdown</option>
                                 </select>
+                            </div>
+                            <div class="form-check my-3">
+                                <input class="form-check-input" type="checkbox" value="" id="copyableCheckbox">
+                                <label class="form-check-label" for="copyableCheckbox">
+                                  Form kopyalandığında bu bilgi taşınsın mı?
+                                </label>
                             </div>
                             <button type="submit" class="btn btn-primary">Ekle</button>
                         </form>
