@@ -18,7 +18,7 @@ cache.init_app(get_app())
 @api_index.route('/', methods=['GET'])
 @cache.cached()
 def index():
-    return render_template('index.html', form_elements=FormElement.get_all_form_elements())
+    return render_template('index.html', forms=Form.get_all_forms())
 
 
 @api_index.route('/form/elements', methods=['GET'])
@@ -31,7 +31,6 @@ def get_form_elements():
 
 @api_index.route('/form/add', methods=['POST'])
 def add_form():
-    create_event(service, "deneme", datetime(2024, 9, 19, 10, 0), datetime(2024, 9, 19, 11, 0))
     data = request.form
     form_elements = {k: v for k, v in data.items() if k != 'formName'}
     form_value = json.dumps(form_elements)

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#openFormModal').on('click', function () {
+    $('.openFormModal').on('click', function () {
         $.ajax({
             url: '/form/elements',
             type: 'GET',
@@ -11,7 +11,7 @@ $(document).ready(function () {
 
                     formContainer.append(`<div class="mb-3">
                         <label class="form-label">Form Adı</label>
-                        <input type="text" class="form-control" name="formName" required>
+                        <input type="text" autocomplete="off" class="form-control" name="formName" required>
                     </div>`);
 
                     formElements.forEach(function (element) {
@@ -20,7 +20,7 @@ $(document).ready(function () {
                             case 1: // Text
                                 inputField = `<div class="mb-3">
                                     <label class="form-label">${element.name}</label>
-                                    <input type="text" class="form-control" name="element-${element.id}" ${element.compulsory ? 'required' : ''}>
+                                    <input type="text" autocomplete="off" class="form-control" name="element-${element.id}" ${element.compulsory ? 'required' : ''}>
                                 </div>`;
                                 break;
                             case 2: // Number

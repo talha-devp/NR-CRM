@@ -138,3 +138,7 @@ class Form(db.Model):
         logging.info(msg=f"A new form has been added to the database with id {new_form.id}")
 
         return jsonify({"success": True, "message": "Form successfully added"})
+
+    @classmethod
+    def get_all_forms(cls):
+        return cls.query.all()
