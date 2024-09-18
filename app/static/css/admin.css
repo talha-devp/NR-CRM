@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f1f1;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 13rem;
+    background-color: #343a40;
+    padding-top: 1em;
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.sidebar:hover {
+    width: 15rem;
+}
+
+.list-group-item {
+    color: #6e6f70;
+    font-size: 1.1em;
+    border: none;
+    padding: 0.8em 1em;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.list-group-item.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.list-group-item:hover {
+    background-color: #495057;
+    color: white;
+    transform: translateX(10px);
+}
+
+.list-group-item:active {
+    transform: translateX(15px);
+}
+
+.list-group-item.static {
+    color: #ffffff;
+    background-color: #343a40;
+    font-weight: bold;
+    cursor: default;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    position: relative;
+}
+
+.sidebar:hover .list-group-item.static {
+    transform: translateX(20px);
+}
+
+.main-content {
+    margin-left: 15rem;
+    padding: 2em;
+    transition: margin-left 0.3s ease;
+    overflow: hidden;
+}
+
+.form-container {
+    display: none;
+    margin-top: 2rem;
+}
+
+.list-group-item-action {
+    display: flex;
+    align-items: center;
+}
+
+.list-group-item-action::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #adb5bd;
+    margin-right: 1em;
+    transition: background-color 0.3s;
+}
+
+.list-group-item-action:hover::before {
+    background-color: #ffffff;
+}
+
+.list-group-item-action:active::before {
+    background-color: #007bff;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+.delete-btn:active {
+    background-color: #bd2130;
+    transform: scale(1);
+}
+
+.btn-fixed-size {
+    font-size: 1em;
+    width: 4em;
+    height: 2.5em;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-fixed-size:hover {
+    transform: scale(1.05);
+}
