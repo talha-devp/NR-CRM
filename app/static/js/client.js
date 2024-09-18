@@ -12,6 +12,7 @@ $(document).ready(function () {
 
     function openFormModal(formId = null) {
         $('#formElementsContainer').empty();
+        $('input[name="formName"]').val('');
 
         if (formId) {
             // Fetch the existing form data
@@ -100,6 +101,8 @@ $(document).ready(function () {
         $('#formContentForm').data('formId', formData.id);
 
         const formValues = JSON.parse(formData.value);
+
+        $('input[name="formName"]').val(formData.name);
 
         // Fetch form elements first
         fetchFormElements().then(() => {
