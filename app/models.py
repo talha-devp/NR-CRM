@@ -93,7 +93,10 @@ class FormElement(db.Model):
 
     @classmethod
     def delete_form_element_by_id(cls, _id: int):
-        element = cls.query.filter_by(id=_id).first()
+        element: FormElement = cls.query.filter_by(id=_id).first()
+        if element.input_type == InputType.DROPDOWN:
+            DropdownOption.delete_options_of_dropdown(element.id)
+
         db.session.delete(element)
         db.session.commit()
         logging.warning(f"A form element by id {_id} has been deleted from the database")
@@ -150,11 +153,11 @@ class Form(db.Model):
         return jsonify({"success": True, "message": "Form successfully added"})
 
     @classmethod
-    def get_all_forms(cls):
+    def get_all_forms(cls) -> list['Form']:
         return cls.query.all()
 
     @classmethod
-    def get_form_by_id(cls, form_id: int):
+    def get_form_by_id(cls, form_id: int) -> 'Form':
         form = cls.query.get(form_id)
         if form:
             logging.info(f"Form ID {form_id} retrieved successfully.")
@@ -162,3 +165,52 @@ class Form(db.Model):
         else:
             logging.warning(f"Form ID {form_id} not found.")
             return jsonify({"success": False, "message": "Form not found"})
+
+
+@dataclass
+class DropdownOption(db.Model):
+    __tablename__ = 'dropdown_option'
+
+    id = db.Column(db.Integer, primary_key=True)
+    option_name = db.Column(db.String(160))
+    option_element_id = db.Column(db.Integer)
+
+    def __init__(self, option_name: str, option_element_id: int):
+        self.option_name = option_name
+        self.option_element_id = option_element_id
+        logging.info(f"New dropdown option created. ID: {self.id}")
+
+    def to_dict(self) -> dict:
+        return {
+            'id': self.id,
+            'option_name': self.option_name,
+            'option_element_id': self.option_element_id,
+        }
+
+    @classmethod
+    def get_options_of_dropdown_element(cls, dropdown_element_id: int) -> list['DropdownOption']:
+        return cls.query.filter_by(option_element_id=dropdown_element_id).all()
+
+    @classmethod
+    def add_new_option(cls, option_name: str, option_element_id: int):
+        new_option = cls(option_name, option_element_id)
+
+        db.session.add(new_option)
+        db.session.commit()
+        logging.info(msg=f"A new dropdown has been added to the database with id {new_option.id}")
+
+        return jsonify({"success": True, "message": "Dropdown option successfully added"})
+
+    @classmethod
+    def delete_options_of_dropdown(cls, option_element_id: int):
+        options_to_delete = cls.query.filter_by(option_element_id=option_element_id).all()
+
+        if options_to_delete:
+            for option in options_to_delete:
+                db.session.delete(option)
+            db.session.commit()
+            logging.info(f"Deleted {len(options_to_delete)} options for dropdown element ID: {option_element_id}")
+
+            return jsonify({"success": True, "message": "Options successfully deleted from database"})
+
+        return jsonify({"success": False, "message": f"No option found for this ID: {option_element_id}"})
