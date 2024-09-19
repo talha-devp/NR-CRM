@@ -19,6 +19,31 @@ $(document).ready(function () {
         $('#addFormElementModal').modal('show');
     });
 
+    // Show/hide dropdown options area based on selected input type
+    $('#inputType').on('change', function () {
+        if ($(this).val() == '5') {
+            $('#dropdownOptionsArea').show();
+        } else {
+            $('#dropdownOptionsArea').hide();
+        }
+    });
+
+    // Add new dropdown option
+    $('#addDropdownOptionBtn').on('click', function () {
+        const optionIndex = $('#dropdownOptionsContainer .dropdown-option').length;
+        $('#dropdownOptionsContainer').append(`
+            <div class="input-group mb-2 dropdown-option">
+                <input type="text" class="form-control" name="dropdown_option_${optionIndex}" placeholder="Seçenek">
+                <button class="btn btn-danger btn-sm remove-option-btn" type="button">&times;</button>
+            </div>
+        `);
+    });
+
+    // Remove a dropdown option
+    $('#dropdownOptionsContainer').on('click', '.remove-option-btn', function () {
+        $(this).closest('.dropdown-option').remove();
+    });
+
     // Handle form submission for adding a new form element
     $('#addFormElementForm').on('submit', function (e) {
         e.preventDefault();
@@ -26,12 +51,25 @@ $(document).ready(function () {
         const name = $('#elementName').val();
         const inputType = $('#inputType').val();
         const copyable = $('#copyableCheckbox').is(':checked');
+        let options = [];
+
+        // If the selected input type is Dropdown
+        if (inputType == '5') {
+            $('#dropdownOptionsContainer .dropdown-option input').each(function () {
+                options.push($(this).val());
+            });
+        }
 
         $.ajax({
             url: '/admin/element/add',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ name: name, input_type: inputType, copyable: copyable }),
+            data: JSON.stringify({
+                name: name,
+                input_type: inputType,
+                copyable: copyable,
+                options: options
+            }),
             success: function (response) {
                 addMessage(response);
                 if (response.success) {
@@ -59,7 +97,6 @@ $(document).ready(function () {
             type: 'DELETE',
             success: function (response) {
                 if (response.success) {
-                    // Refresh the page or reload the table if needed
                     location.reload();
                 }
                 addMessage(response);

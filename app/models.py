@@ -1,6 +1,6 @@
 import logging
 from app import db
-from flask import jsonify
+from flask import jsonify,  Response
 from dataclasses import dataclass
 from enum import Enum
 
@@ -80,7 +80,7 @@ class FormElement(db.Model):
         return cls.query.all()
 
     @classmethod
-    def add_form_element(cls, name: str, input_type: InputType, copyable=False):
+    def add_form_element(cls, name: str, input_type: InputType, copyable=False) -> tuple[Response, 'FormElement']:
         if not name or not input_type:
             return jsonify({"success": False, "message": "Geçersiz veri. Lütfen tüm alanları doldurun."}), 400
 
@@ -89,10 +89,10 @@ class FormElement(db.Model):
         db.session.commit()
         logging.info(msg=f"A new form element has been added to the database with id {new_element.id}")
 
-        return jsonify({"success": True, "message": "Form element successfully added"})
+        return jsonify({"success": True, "message": "Form element successfully added"}), new_element
 
     @classmethod
-    def delete_form_element_by_id(cls, _id: int):
+    def delete_form_element_by_id(cls, _id: int) -> Response:
         element: FormElement = cls.query.filter_by(id=_id).first()
         if element.input_type == InputType.DROPDOWN:
             DropdownOption.delete_options_of_dropdown(element.id)
@@ -124,27 +124,31 @@ class Form(db.Model):
         }
 
     @classmethod
-    def update_value(cls, form_id: int, new_value: str):
+    def update_value(cls, form_id: int, new_value: str) -> Response:
         form = cls.query.get(form_id)
         if form:
             form.value = new_value
             db.session.commit()
             logging.info(f"Form ID {form_id} updated with new value.")
+            return jsonify({"success": True, "message": "Form value successfully updated"})
         else:
             logging.warning(f"Form ID {form_id} not found.")
+            return jsonify({"success": False, "message": "No such form found"})
 
     @classmethod
-    def update_name(cls, form_id: int, new_name: str):
+    def update_name(cls, form_id: int, new_name: str) -> Response:
         form = cls.query.get(form_id)
         if form:
             form.name = new_name
             db.session.commit()
             logging.info(f"Form ID {form_id} updated with new name.")
+            return jsonify({"success": True, "message": "Form name successfully updated"})
         else:
             logging.warning(f"Form ID {form_id} not found.")
+            return jsonify({"success": False, "message": "No such form found"})
 
     @classmethod
-    def add_form(cls, value: str, name: str = None):
+    def add_form(cls, value: str, name: str = None) -> Response:
         new_form = cls(value, name)
         db.session.add(new_form)
         db.session.commit()
@@ -192,7 +196,7 @@ class DropdownOption(db.Model):
         return cls.query.filter_by(option_element_id=dropdown_element_id).all()
 
     @classmethod
-    def add_new_option(cls, option_name: str, option_element_id: int):
+    def add_new_option(cls, option_name: str, option_element_id: int) -> Response:
         new_option = cls(option_name, option_element_id)
 
         db.session.add(new_option)
@@ -202,7 +206,7 @@ class DropdownOption(db.Model):
         return jsonify({"success": True, "message": "Dropdown option successfully added"})
 
     @classmethod
-    def delete_options_of_dropdown(cls, option_element_id: int):
+    def delete_options_of_dropdown(cls, option_element_id: int) -> Response:
         options_to_delete = cls.query.filter_by(option_element_id=option_element_id).all()
 
         if options_to_delete:

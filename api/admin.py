@@ -1,7 +1,7 @@
 import logging
 from functools import wraps
 from flask import jsonify, Blueprint, request, session, redirect, url_for, render_template
-from app.models import User, FormElement, InputType
+from app.models import User, FormElement, InputType, DropdownOption
 
 api_admin = Blueprint('api_admin', __name__, url_prefix='/admin')
 
@@ -73,8 +73,15 @@ def add_form_element():
     name = data.get('name')
     input_type = InputType(int(data.get('input_type')))
     copyable = bool(data.get('copyable'))
+    element_add_response, new_element = FormElement.add_form_element(name, input_type, copyable)
 
-    return FormElement.add_form_element(name, input_type, copyable)
+    if input_type == InputType.DROPDOWN:
+        options = data.get('options')
+
+        for option in options:
+            DropdownOption.add_new_option(option, new_element.id)
+
+    return element_add_response
 
 
 @api_admin.route('/element/delete/<int:_id>', methods=['DELETE'])

@@ -23,7 +23,7 @@
             <button id="addFormElementBtn" class="btn btn-primary">Form Elemanı Ekle</button>
         </div>
 
-        <!-- View All Products -->
+        <!-- View All Element Form Elements -->
         <div class="row justify-content-center" id="viewAllElementsForm">
             <div class="col-12">
                 <div class="card border border-light-subtle rounded-3 shadow-sm">
@@ -40,7 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% set input_type_names = {1: 'Text', 2: 'Dropdown', 3: 'Date Picker', 4: 'Checkbox'} %}
+                                {% set input_type_names = {1: 'Text', 2: 'Number', 3: 'Date Picker', 4: 'Checkbox', 5: 'Dropdown'} %}
                                 {% for element in form_elements %}
                                     <tr>
                                         <td class="align-middle">{{ element.id }}</td>
@@ -102,6 +102,14 @@
                                     <option value="4">Checkbox</option>
                                     <option value="5">Dropdown</option>
                                 </select>
+                            </div>
+                            <!-- Dropdown options area, initially hidden -->
+                            <div id="dropdownOptionsArea" class="mb-3" style="display: none;">
+                                <label class="form-label">Seçenekler</label>
+                                <div id="dropdownOptionsContainer">
+                                    <!-- Options will be added here dynamically -->
+                                </div>
+                                <button type="button" class="btn btn-secondary btn-sm" id="addDropdownOptionBtn">Seçenek Ekle</button>
                             </div>
                             <div class="form-check my-3">
                                 <input class="form-check-input" type="checkbox" value="" id="copyableCheckbox">
