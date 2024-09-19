@@ -137,6 +137,8 @@ $(document).ready(function () {
                     const dropdown = $(`select[name='element-${elementId}']`);
                     dropdown.empty(); // Clear previous options
 
+                    dropdown.append(`<option value="" disabled selected>Lütfen bir seçenek seçiniz</option>`);
+
                     response.data.forEach(function (option) {
                         dropdown.append(`<option value="${option.id}">${option.option_name}</option>`);
                     });
