@@ -114,6 +114,10 @@ $(document).ready(function () {
                 if (inputField.length) {
                     if (inputField.is('input[type="checkbox"]')) {
                         inputField.prop('checked', value);
+                    } else if (inputField.is('select')) {
+                    setTimeout(() => {
+                        inputField.val(value);
+                    }, 100); // Add a small delay to ensure options are loaded
                     } else {
                         inputField.val(value);
                     }
