@@ -104,16 +104,12 @@ $(document).ready(function () {
 
         $('input[name="formName"]').val(formData.name);
 
-        // Fetch form elements first
         fetchFormElements().then(() => {
-            // Now that the inputs are generated, set their values
             Object.keys(formValues).forEach(function (key) {
                 const value = formValues[key];
 
-                // Find the corresponding input field
                 const inputField = $(`input[name='${key}'], select[name='${key}'], .form-check-input[name='${key}']`);
 
-                // Set the value accordingly
                 if (inputField.length) {
                     if (inputField.is('input[type="checkbox"]')) {
                         inputField.prop('checked', value);
@@ -123,7 +119,6 @@ $(document).ready(function () {
                 }
             });
 
-            // Show the modal after populating it
             $('#formModal').modal('show');
         });
     }
@@ -144,7 +139,7 @@ $(document).ready(function () {
                 if (response.success) {
                     alert('Form başarıyla kaydedildi.');
                     $('#formModal').modal('hide');
-                    // Optionally, refresh the list or update UI without refresh
+                    location.reload();
                 } else {
                     alert('Form kaydedilirken bir hata oluştu.');
                 }

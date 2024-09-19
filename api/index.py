@@ -46,3 +46,18 @@ def add_form():
 @api_index.route('/form/<int:form_id>', methods=['GET'])
 def get_form(form_id: int):
     return Form.get_form_by_id(form_id)
+
+
+@api_index.route('/form/update/<int:form_id>', methods=['POST'])
+def update_form(form_id: int):
+    data = request.form
+    form_elements = {k: v for k, v in data.items() if k != 'formName'}
+    form_value = json.dumps(form_elements)
+    Form.update_value(form_id, form_value)
+
+    if data.get('formName'):
+        Form.update_name(form_id, data.get('formName'))
+    else:
+        return jsonify({"success": False, "message": "Form name does not exist"})
+
+    return jsonify({"success": True, "message": "Form successfully added"})

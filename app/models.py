@@ -131,6 +131,16 @@ class Form(db.Model):
             logging.warning(f"Form ID {form_id} not found.")
 
     @classmethod
+    def update_name(cls, form_id: int, new_name: str):
+        form = cls.query.get(form_id)
+        if form:
+            form.name = new_name
+            db.session.commit()
+            logging.info(f"Form ID {form_id} updated with new name.")
+        else:
+            logging.warning(f"Form ID {form_id} not found.")
+
+    @classmethod
     def add_form(cls, value: str, name: str = None):
         new_form = cls(value, name)
         db.session.add(new_form)
