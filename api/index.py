@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, render_template, jsonify, request
 from app import get_app
 from flask_caching import Cache
-from app.models import FormElement, Form
+from app.models import FormElement, Form, DropdownOption
 from calendar_service import authenticate_google_calendar, create_event
 from datetime import datetime
 
@@ -61,3 +61,12 @@ def update_form(form_id: int):
         return jsonify({"success": False, "message": "Form name does not exist"})
 
     return jsonify({"success": True, "message": "Form successfully added"})
+
+
+@api_index.route('/dropdown/options/<int:element_id>', methods=['GET'])
+def get_dropdown_options(element_id: int):
+    options = DropdownOption.get_options_of_dropdown_element(element_id)
+    return jsonify({
+        'success': True,
+        'data': [option.to_dict() for option in options]
+    })

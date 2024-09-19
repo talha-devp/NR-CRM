@@ -79,9 +79,10 @@ $(document).ready(function () {
                                 inputField = `<div class="mb-3">
                                     <label class="form-label">${element.name}</label>
                                     <select class="form-select" name="element-${element.id}">
-                                        <!-- Add dropdown options here -->
+                                        <!-- Options will be added dynamically -->
                                     </select>
                                 </div>`;
+                                fetchDropdownOptions(element.id);
                                 break;
                         }
                         $('#formElementsContainer').append(inputField);
@@ -120,6 +121,28 @@ $(document).ready(function () {
             });
 
             $('#formModal').modal('show');
+        });
+    }
+
+    function fetchDropdownOptions(elementId) {
+        $.ajax({
+            url: `/dropdown/options/${elementId}`,
+            type: 'GET',
+            success: function (response) {
+                if (response.success) {
+                    const dropdown = $(`select[name='element-${elementId}']`);
+                    dropdown.empty(); // Clear previous options
+
+                    response.data.forEach(function (option) {
+                        dropdown.append(`<option value="${option.id}">${option.option_name}</option>`);
+                    });
+                } else {
+                    console.error('Failed to fetch dropdown options:', response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
         });
     }
 
