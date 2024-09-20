@@ -80,6 +80,19 @@ class FormElement(db.Model):
         return cls.query.all()
 
     @classmethod
+    def set_name_by_id(cls, _id: int, _name: str):
+        element = cls.query.get(_id)
+
+        if element:
+            element.name = _name
+            db.session.commit()
+            logging.info(f"Form element ID {_id} updated with new name.")
+            return jsonify({"success": True, "message": "Form element name successfully updated"})
+        else:
+            logging.warning(f"Form ID {_id} not found.")
+            return jsonify({"success": False, "message": "No such form element found"})
+
+    @classmethod
     def add_form_element(cls, name: str, input_type: InputType, copyable=False) -> tuple[Response, 'FormElement']:
         if not name or not input_type:
             return jsonify({"success": False, "message": "Geçersiz veri. Lütfen tüm alanları doldurun."}), 400

@@ -89,3 +89,11 @@ def add_form_element():
 def delete_form_element(_id: int):
     logging.info(msg="Delete form element called")
     return FormElement.delete_form_element_by_id(_id)
+
+
+@api_admin.route('/element/<int:_id>/update-name', methods=['PUT'])
+@login_required
+def update_element_name(_id: int):
+    name = request.get_json().get('name')
+
+    return FormElement.set_name_by_id(_id, name)

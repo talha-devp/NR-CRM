@@ -14,6 +14,38 @@ $(document).ready(function () {
         });
     });
 
+    // Element name update ajax
+    function updateElementName(id, newName) {
+        $.ajax({
+            url: `/admin/element/${id}/update-name`,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({ name: newName }),
+            success: function (response) {
+                addMessage(response);
+                if (response.success) {
+                    console.log('Element name updated successfully.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error updating element name:', error);
+                alert('Error updating element name. Please try again.');
+            }
+        });
+    }
+
+    // Event listener for name change
+    $('#viewAllElementsForm').on('change', '.element-name-input', function () {
+        const elementId = $(this).data('id');  // Assuming the input has a data-id attribute with the element ID
+        const newName = $(this).val();
+
+        if (newName.trim() !== "") {
+            updateElementName(elementId, newName);
+        } else {
+            alert('Name cannot be empty.');
+        }
+    });
+
     // Open add form element modal
     $('#addFormElementBtn').on('click', function () {
         $('#addFormElementModal').modal('show');
